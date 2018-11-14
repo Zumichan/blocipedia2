@@ -1,0 +1,17 @@
+{
+  "name": "blocipedia2",
+  "version": "1.0.0",
+  "description": "An application for creating, collaborating, and sharing wikis",
+  "main": "src/server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine"
+  },
+  "keywords": [
+    "blocipedia2"
+  ],
+  "author": "azumi",
+  "license": "ISC"
+}
