@@ -1,7 +1,6 @@
 const User = require("./models").User;
 const bcrypt = require("bcryptjs");
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports = {
 
@@ -14,6 +13,7 @@ module.exports = {
       password: hashedPassword
     })
     .then((user) => {
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
       const msg = {
         to: newUser.email,
         from: 'info@blocipedia.com',
@@ -21,7 +21,7 @@ module.exports = {
         text: 'Thank you for signing up - start sharing your knowledge with other members in the community!',
         html: '<strong>Let the fun begin!</strong>',
       };
-      //console.log(msg); too see if the msg object looks good in the terminal
+      //console.log(msg); to see if the msg object looks good in the terminal
       sgMail.send(msg);
       callback(null, user);
     })
