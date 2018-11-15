@@ -28,23 +28,23 @@ module.exports = {
    signInForm(req, res, next){
      res.render("users/sign_in");
    },
-   signIn(req, res, next){
-     passport.authenticate("local", function(err, user, info){
-       if(err){
-         next(err);
-       }
-       if(!user){
-         req.flash("notice", "Error: The email or password you entered is incorrect.")
-         res.redirect("/users/sign_in");
-       }
-       req.logIn(user,function(err){
-         if(err){
-           next(err);
-         }
-         req.flash("notice", "You've successfully signed in!");
-         res.redirect("/");
-       });
-     })(req, res, next);
+    signIn(req, res, next){
+      passport.authenticate("local", function(err, user, info){
+        if(err){
+          next(err);
+        }
+        if(!user){
+          req.flash("notice", "Error: The email or password you entered is incorrect.")
+          res.redirect("/users/sign_in");
+        }
+        req.logIn(user,function(err){
+          if(err){
+            next(err);
+          }
+          req.flash("notice", "You've successfully signed in!");
+          res.redirect("/");
+        });
+      })(req, res, next);
     },
     signOut(req, res, next){
       req.logout();
