@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <% include ../static/partials/head.ejs %>
+    </head>
+
+    <body>
+
+        <% include ../static/partials/navbar.ejs %>
+
+        <main class="container">
+
+            <% include ../static/partials/messages.ejs %>
+
+            <h1><%= `${user.username}'s profile` %></h1>
+
+            <h3>Your account status is:
+                <%= user.role %>
+            </h3>
+
+            <% if(currentUser && !currentUser.isPremium()) { %>
+            <p>If you want to create private Wikis, please upgrade your account to premium today!</p>
+            <a href="/users/<%= user.id %>/upgrade" class="btn btn-success">Upgrade to Premium</a>
+            <% } %>
+
+            <% if(currentUser && currentUser.isPremium()) { %>
+            <a href="/users/<%= user.id %>/downgrade" class="btn btn-warning">Downgrade to Standard</a>
+            <p>Private Wikis will no longer be available if you downgrade your account to standard. </p>
+            <% } %>
+
+        </main>
+
+        <% include ../static/partials/baseScripts.ejs %>
+
+    </body>
+
+</html>

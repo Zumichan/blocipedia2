@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <% include ../static/partials/head.ejs %>
+    </head>
+
+    <body>
+
+        <% include ../static/partials/navbar.ejs %>
+
+        <main class="container">
+
+            <% include ../static/partials/messages.ejs %>
+
+            <h4>Upgrade your account today!</h4>
+
+            <p>Just for $15/month, you can create private Wikis and collaborate with other members!</p>
+
+            <form action="/users/<%=user.id %>/upgrade" method="POST">
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_tFXJioF4kwwJucqjJzxljSsW"
+                    data-amount="1500" data-name="Blocipedia" data-description="Example charge" data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto">
+                </script>
+            </form>
+
+        </main>
+
+        <% include ../static/partials/baseScripts.ejs %>
+
+    </body>
+
+</html>

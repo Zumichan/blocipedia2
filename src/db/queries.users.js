@@ -28,6 +28,31 @@ module.exports = {
     .catch((err) => {
       callback(err);
     })
+  },
+  getUser(id, callback){
+    return User.findById(id)
+    .then((user)=>{
+      callback(null, user);
+    })
+    .catch((err)=>{
+      callback(err);
+    })
+  },
+  changeRole(user){
+    User.findOne({
+      where: {email: user.email}
+    })
+    .then((user)=>{
+      if(user.role == "standard"){
+        user.update({
+          role: "premium"
+        })
+      } else if (user.role == "premium"){
+        user.update({
+          role: "standard"
+        })
+      }
+    })
   }
 
 }
