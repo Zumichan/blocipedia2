@@ -21,7 +21,9 @@
         <div class="form-group">
           <label for="body">Wiki body</label>
           <textarea rows="4" class="form-control" name="body" placeholder="Enter body"></textarea>
-          <small class="text-muted" id="bodyHelp">Body must be 10 or more characters in length.</small>
+          <small class="text-muted" id="bodyHelp">Body must be 10 or more characters in length. </small>
+          <br>
+          <small class="text-muted" id="bodyHelp">**bold** `code` >quote *bullet list </small>
         </div>
         <% if(currentUser.isPremium() || currentUser.isAdmin()) { %>
         <div class="form-group">
