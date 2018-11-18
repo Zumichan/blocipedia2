@@ -23,11 +23,16 @@
           <textarea rows="4" class="form-control" name="body" placeholder="Enter body"></textarea>
           <small class="text-muted" id="bodyHelp">Body must be 10 or more characters in length.</small>
         </div>
+        <% if(currentUser.isPremium() || currentUser.isAdmin()) { %>
         <div class="form-group">
-          <p>Click this box if you want to make your wiki private:</p>
-          <label for="private">Private</label>
-          <input type="checkbox" id="private" name="private">
+          <label for="private">Wiki Status</label>
+          <select class="form-control" name="private">
+            <option value="false">Public</option>
+            <option value="true">Private</option>
+          </select>
+          <small class="text-muted" id="wikiStatus">Select Private if you want to make your wiki private</small>
         </div>
+        <% } %>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
 

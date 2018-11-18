@@ -1,4 +1,5 @@
 const userQueries = require("../db/queries.users.js");
+const wikiQueries = require("../db/queries.wikis.js");
 const passport = require("passport");
 const secretKey = process.env.STRIPE_SECRET_KEY;
 const stripe = require('stripe')(secretKey);
@@ -72,7 +73,7 @@ module.exports = {
             } else {
                 res.render("users/upgrade", {user});
             }
-        });
+     });
    },
    upgrade(req, res, next){
      const token = req.body.stripeToken;
@@ -118,6 +119,8 @@ module.exports = {
            res.redirect("users/show", {user});
          } else {
            userQueries.changeRole(user);
+           //wikiQueries.makePrivate(req.params.id);
+           wikiQueries.makePrivate(user);
            req.flash("notice", "You've been downgraded to Standard!");
            res.redirect("/");
          }
