@@ -53,6 +53,8 @@ module.exports = {
   },
   show(req, res, next){
     wikiQueries.getWiki(req.params.id, (err, wiki) => {
+      wiki = result["wiki"];
+      collaborators = result["collaborators"];
       if(err || wiki == null){
         res.redirect(404, "/");
       } else {
@@ -64,20 +66,22 @@ module.exports = {
    destroy(req, res, next){
      wikiQueries.deleteWiki(req, (err, wiki) => {
        if(err){
-         res.redirect(err, `/wikis/${req.params.id}`)
+         res.redirect(err, `/wikis/${wiki.id}`)
        } else {
          res.redirect(303, "/wikis")
        }
      });
    },
    edit(req, res, next){
-    wikiQueries.getWiki(req.params.id, (err, wiki) => {
+    wikiQueries.getWiki(req.params.id, (err, result) => {
+      wiki = result["wiki"];
+      collaborators = result["collaborators"];
       if(err || wiki == null){
         res.redirect(404, "/");
       } else {
-        const authorized = new Authorizer(req.user, wiki).edit();
+        const authorized = new Authorizer(req.user, wiki, collaborators).edit();
         if(authorized){
-          res.render("wikis/edit", {wiki});
+          res.render("wikis/edit", {wiki, collaborators});
         } else {
           req.flash("Error: You are not authorized to do that.")
           res.redirect(`/wikis/${req.params.id}`)
@@ -90,7 +94,7 @@ module.exports = {
        if(err || wiki == null){
          res.redirect(401, `/wikis/${req.params.id}/edit`);
        } else {
-         res.redirect(`/wikis/${req.params.id}`);
+         res.redirect(`/wikis/${wiki.id}`);
        }
      });
    }

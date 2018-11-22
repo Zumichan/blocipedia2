@@ -14,5 +14,6 @@ router.get("/users/:id/upgrade", userController.upgradeForm);
 router.post("/users/:id/upgrade", userController.upgrade);
 router.get("/users/:id/downgrade", userController.downgradeForm);
 router.post("/users/:id/downgrade",userController.downgrade);
+router.get("/users/collaborations",userController.showCollaborations);
 
 module.exports = router;

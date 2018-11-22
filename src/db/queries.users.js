@@ -1,6 +1,7 @@
 const User = require("./models").User;
 const bcrypt = require("bcryptjs");
 const sgMail = require('@sendgrid/mail');
+const Collaborator = require("./models").Collaborator;
 
 module.exports = {
 
@@ -30,13 +31,23 @@ module.exports = {
     })
   },
   getUser(id, callback){
-    return User.findById(id)
-    .then((user)=>{
-      callback(null, user);
-    })
-    .catch((err)=>{
-      callback(err);
-    })
+    let result = {};
+      return User.findById(id)
+      .then((user) => {
+        if(!user) {
+          callback(404);
+        } else {
+          result["user"] = user;
+          Collaborator.scope({ method: ["userCollaborationsFor", id] }).all()
+          .then((collaborations) => {
+            result["collaborations"] = collaborations;
+            callback(null, result);
+          })
+          .catch((err) => {
+            callback(err);
+          })
+        }
+      })
   },
   changeRole(user){
     User.findOne({
