@@ -31,37 +31,18 @@ module.exports = {
       }
     });
    },
-   destroy(req, res, next){
-     wikiQueries.deleteWiki(req, (err, wiki) => {
-       if(err){
-         res.redirect(err, `/wikis/${req.params.id}`)
-       } else {
-         res.redirect(303, "/wikis")
-       }
-     });
-   },
-   edit(req, res, next){
-    wikiQueries.getWiki(req.params.id, (err, wiki) => {
-      if(err || wiki == null){
-        res.redirect(404, "/");
-      } else {
-        const authorized = new Authorizer(req.user, wiki).edit();
-        if(authorized){
-          res.render("wikis/edit", {wiki});
-        } else {
-          req.flash("Error: You are not authorized to do that.")
-          res.redirect(`/wikis/${req.params.id}`)
-        }
-      }
-    });
-   },
-   update(req, res, next){
-     wikiQueries.updateWiki(req, req.body, (err, wiki) => {
-       if(err || wiki == null){
-         res.redirect(401, `/wikis/${req.params.id}/edit`);
-       } else {
-         res.redirect(`/wikis/${req.params.id}`);
-       }
-     });
+   delete(req, res, next){
+     if(req.user){
+       collaboratorQueries.deleteCollaborator(req, (err, collaborator) => {
+         if(err){
+           req.flash("error", err);
+         }
+         res.redirect(req.headers.referer);
+       })
+     } else {
+       req.flash("notice", "You must be signed in to do that");
+       res.redirect(req.headers.referer);
+     }
    }
-}
+
+ }
