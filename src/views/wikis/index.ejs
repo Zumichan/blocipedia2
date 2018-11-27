@@ -18,7 +18,7 @@
         <% wikis.forEach((wiki) => { %>
           <% if(wiki.private) { %>
             <% if(currentUser) { %>
-              <% if(currentUser.isPremium() || currentUser.isAdmin()){ %>
+              <% if(currentUser.isPremium() || currentUser.isAdmin() || wiki.userId === currentUser.id){ %>
           <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
           </li>
