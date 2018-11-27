@@ -33,6 +33,8 @@ module.exports = {
      res.render("users/sign_in");
    },
    signIn(req, res, next){
+     console.log(req);
+     console.log(req.params, "this is req.params");
      passport.authenticate("local", function(err, user, info){
        if(err){
          next(err);
@@ -51,15 +53,12 @@ module.exports = {
      })(req, res, next);
    },
    signOut(req, res, next){
-     console.log(req);
-     console.log(req.params);
      req.logout();
      req.flash("notice", "You've successfully signed out!");
      res.redirect("/");
    },
    show(req, res, next) {
-     //console.log(req);
-     //console.log(req.params);
+     console.log(req.params, "This is for checking what's in req.params")
      userQueries.getUser(req.params.id, (err, user) => {
        if(err || user === undefined){
          req.flash("notice", "Error: No user found with that ID.");
