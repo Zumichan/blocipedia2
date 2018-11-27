@@ -91,7 +91,7 @@ module.exports = {
            })
            .then((result) => {
              if(result){
-               userQueries.changeRole(user);
+               userQueries.upgradeUser(req.user.dataValues.id);
                  req.flash("notice", "You've been upgraded to Premium!");
                  res.redirect("/");
              } else {
@@ -118,7 +118,7 @@ module.exports = {
            req.flash("notice", "Downgrade unsuccessful.");
            res.redirect("users/show", {user});
          } else {
-           userQueries.changeRole(user);
+           userQueries.downgradeUser(req.user.dataValues.id);
            //wikiQueries.makePrivate(req.params.id);
            wikiQueries.makePrivate(user);
            req.flash("notice", "You've been downgraded to Standard!");
