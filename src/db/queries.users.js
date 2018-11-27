@@ -49,6 +49,7 @@ module.exports = {
       }
     })
   },
+  /*This function no longer works for wiki collaborator. Now we've assigned an userID and we need to specify which user we are targeting.
   changeRole(user){
     User.findOne({
       where: {email: user.email}
@@ -65,6 +66,33 @@ module.exports = {
         })
       }
     })
+  }
+*/
+  upgradeUser(id, callback){
+    return User.findById(id)
+    .then(user => {
+      if(!user){
+        return callback(404);
+      } else {
+        return user.updateAttributes({role:'premium'});
+      }
+    })
+    .catch(err => {
+      callback(err);
+    });
+  },
+  downgradeUser(id, callback){
+    return User.findById(id)
+    .then(user => {
+      if(!user){
+        return callback(404);
+      } else {
+        return user.updateAttributes({role:'standard'});
+      }
+    })
+    .catch(err => {
+      callback(err);
+    });
   }
 
 }
