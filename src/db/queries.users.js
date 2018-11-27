@@ -49,7 +49,6 @@ module.exports = {
       }
     })
   },
-  /* This method no longer works for downgrading. 
   changeRole(user){
     User.findOne({
       where: {email: user.email}
@@ -67,33 +66,5 @@ module.exports = {
       }
     })
   }
-  */
-  upgradeUser(id, callback) {
-    return User.findById(id)
-      .then(user => {
-        if (!user) {
-          return callback(404);
-        } else {
-          return user.updateAttributes({ role: 'premium' });
-        }
-      })
-      .catch(err => {
-        callback(err);
-      });
-  },
-  downgradeUser(id, callback) {
-    return User.findById(id)
-      .then(user => {
-        if (!user) {
-          return callback(404);
-        } else {
-          return user.updateAttributes({ role: 'standard' });
-        }
-      })
-      .catch(err => {
-        callback(err);
-      });
-  }
-
 
 }

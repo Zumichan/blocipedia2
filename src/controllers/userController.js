@@ -56,6 +56,8 @@ module.exports = {
      res.redirect("/");
    },
    show(req, res, next) {
+     //console.log(req);
+     //console.log(req.params);
      userQueries.getUser(req.params.id, (err, user) => {
        if(err || user === undefined){
          req.flash("notice", "Error: No user found with that ID.");
@@ -91,7 +93,7 @@ module.exports = {
            })
            .then((result) => {
              if(result){
-               userQueries.upgradeUser(req.user.dataValues.id);
+               userQueries.changeRole(user);
                  req.flash("notice", "You've been upgraded to Premium!");
                  res.redirect("/");
              } else {
@@ -118,7 +120,7 @@ module.exports = {
            req.flash("notice", "Downgrade unsuccessful.");
            res.redirect("users/show", {user});
          } else {
-           userQueries.downgradeUser(req.user.dataValues.id);
+           userQueries.changeRole(user);
            //wikiQueries.makePrivate(req.params.id);
            wikiQueries.makePrivate(user);
            req.flash("notice", "You've been downgraded to Standard!");
