@@ -17,19 +17,25 @@
       <ul class="list-group">
         <% wikis.forEach((wiki) => { %>
           <% if(wiki.private) { %>
-            <% if((currentUser) &&
-            (currentUser.isPremium() || currentUser.isAdmin() || wiki.userId === currentUser.id || collaborator.userId === currentUser.id)) { %>
+            <% if(currentUser &&
+            (currentUser.isPremium() || currentUser.isAdmin() || wiki.userId === currentUser.id) { %>
+          <li class="list-group-item">
+            <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %></a>
+          </li>
+        <% } if else (if(collaborators && collaborators.forEach((collaborator) => {return collaborator.userId === currentUser.id}))){ %>
           <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
           </li>
+       <% }) %>
         <% } %>
         <% } else { %>
           <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
           </li>
-          <% } %>
-        <% }) %>
+           <% } %>
+         <% }) %>
       </ul>
+
 
     </main>
     <% include ../static/partials/baseScripts.ejs %>
