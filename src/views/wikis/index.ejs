@@ -1,37 +1,70 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <% include ../static/partials/head.ejs %>
-  </head>
-  <body>
-      <% include ../static/partials/navbar.ejs %>
+</head>
 
-      <main class="container">
+<body>
+    <% include ../static/partials/navbar.ejs %>
 
-      <h1>Wikis</h1>
+    <main class="container">
+        <a href='/' class="btn btn-outline-info" style='margin-bottom: 19px; margin-left: 5px'>
+            <i class='fas fa-arrow-left'></i></a>
+        <h1 style='display:inline-block'>Wikis</h1>
 
-      <% if(currentUser) { %>
-        <a href="/wikis/new" class="btn btn-success">New Wiki</a>
-      <% } %>
+        <br>
 
-      <ul class="list-group">
-        <% wikis.forEach((wiki) => { %>
-          <% if(wiki.private) { %>
-            <% if((currentUser) &&
-            (currentUser.isPremium() || currentUser.isAdmin() || wiki.userId === currentUser.id || collaborator.userId === currentUser.id)) { %>
-          <li class="list-group-item">
-            <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
-          </li>
-        <% } %>
-        <% } else { %>
-          <li class="list-group-item">
-            <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
-          </li>
-          <% } %>
-        <% }) %>
-      </ul>
+        <a href="/users/collaborations" class="btn btn-primary" style='margin-bottom: 12px'>See Collaborations</a>
 
-    </main>
-    <% include ../static/partials/baseScripts.ejs %>
-  </body>
-</html>
+        <% if(!currentUser) { %>
+        <br>
+        <small>Please sign up/sign in to create your own wiki topic.</small>
+        <p />
+        <ul class='list-group'>
+            <% const newWikis = wikis.filter( wiki => wiki.private == false) %>
+            <% newWikis.forEach((wiki) => { %>
+            <li class="list-group-item">
+                <a href="/wikis/<%= wiki.id %>">
+                    <%= wiki.title %></a>
+                <small>
+                    creator:
+                    <%= name(users, wiki) %>
+                    @
+                    <%= wiki.createdAt %>
+                </small>
+            </li>
+            <% }) %>
+        </ul>
+        <% } else if(currentUser)  { %>
+        <p>Want to contribute something new? <a href="/wikis/new"><i class="fas fa-lg fa-plus-square" id='plus-icon'></i></a></p>
+        <ul class="list-group">
+            <!-- //shows all wikis for admin -->
+            <%  if (currentUser.role == 'admin') { wikis.forEach((wiki)=> { %>
+            <li class="list-group-item">
+                <a href="/wikis/<%= wiki.id %>">
+                    <%= wiki.title %></a>
+                <small> creator:
+                    <%= name(users, wiki) %>
+                    @
+                    <%= wiki.createdAt %>
+                    (PRIVATE:
+                    <%= (wiki.private).toString().toUpperCase(); %>) </small>
+            </li>
+            <% })} else { %>
+            <!-- //shows wikis only if authored by user or they are public
+            //to see collaborations as premium user, must click on 'see collaborations' -->
+            <% const newWikis = wikis.filter( wiki => wiki.userId === currentUser.id || wiki.private == false) %>
+            <% newWikis.forEach((wiki) => { %>
+            <li class="list-group-item">
+                <a href="/wikis/<%= wiki.id %>">
+                    <%= wiki.title %></a>
+                <small>
+                    creator:
+                    <%= name(users, wiki) %>
+                    @
+                    <%= wiki.createdAt %>
+                </small>
+            </li>
+            <% }) }%>
+            <% } %>

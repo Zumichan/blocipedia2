@@ -10,11 +10,12 @@
     <main class="container">
         <% include ../static/partials/messages.ejs %>
         <% if(wiki.private) { %>
-        <h1>Collaborators for <%= wiki.title %> </h1>
+        <h1>Collaborators for
+            <%= wiki.title %> Wiki</h1>
         <hr>
         <h4> Add a New Collaborator</h4>
         <% if(currentUser && (currentUser.role === "premium" || currentUser.role === "admin")) { %>
-        <form style="width:25%" action="/wikis/<%= wiki.id %>/collaborators/add" method="post">
+        <form style="width:25%" action="/wikis/<%= wiki.id %>/collaborators/create" method="post">
             <div class="input-group">
                 <input type="text" class="form-control" name="collaborator" placeholder="Enter username">
                 <button type="submit" class="btn btn-secondary">Add</button>
@@ -30,9 +31,8 @@
                     <%= collaborator.User.username %>
                 </h4>
                 <% if(currentUser && (currentUser.role === "premium" || currentUser.role === "admin")) { %>
-                    <% console.log(collaborator.wikiId) %>
-                <form action="/wikis/<%= collaborator.wikiId %>/collaborators/remove" method="post">
-                    <button type="submit" class="btn btn-danger">Remove</button>
+                <form action="/wikis/<%= collaborator.wikiId %>/collaborators/delete" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
                     <input type="hidden" value="<%= collaborator.User.id %>" class="form-control" name="collaborator">
                 </form>
                 <% } %>
@@ -40,8 +40,7 @@
             <% }) %>
         </ul>
         <% } %>
-        <br>
-        <a href="/wikis" class="btn btn-info">Back to Wikis</a>
+        <% include ../static/partials/baseScripts.ejs %>
 </body>
 
 </html>
