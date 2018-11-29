@@ -14,26 +14,26 @@
         <a href="/wikis/new" class="btn btn-success">New Wiki</a>
       <% } %>
 
+
       <ul class="list-group">
         <% wikis.forEach((wiki) => { %>
+          <% const collaborators = collaborators.filter((collaborator) => collaborator.userId === currentUser.id) %>
           <% if(wiki.private) { %>
-            <% if(currentUser &&
-            (currentUser.isPremium() || currentUser.isAdmin() || wiki.userId === currentUser.id) { %>
+            <% if(currentUser && (currentUser.isPremium() || currentUser.isAdmin() || wiki.userId === currentUser.id)) { %>
           <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %></a>
           </li>
-        <% } if else (if(collaborators && collaborators.forEach((collaborator) => {return collaborator.userId === currentUser.id}))){ %>
+        <% } else if (collaborators){ %>
           <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
           </li>
-       <% }) %>
-        <% } %>
+       <% } %>
         <% } else { %>
           <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
           </li>
            <% } %>
-         <% }) %>
+          <% }) %>
       </ul>
 
 
