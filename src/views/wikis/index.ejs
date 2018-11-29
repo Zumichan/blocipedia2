@@ -14,28 +14,50 @@
         <a href="/wikis/new" class="btn btn-success">New Wiki</a>
       <% } %>
 
-
-      <ul class="list-group">
-        <% wikis.forEach((wiki) => { %>
-          <% const collaborators = collaborators.filter((collaborator) => collaborator.userId === currentUser.id) %>
-          <% if(wiki.private) { %>
-            <% if(currentUser && (currentUser.isPremium() || currentUser.isAdmin() || wiki.userId === currentUser.id)) { %>
-          <li class="list-group-item">
-            <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %></a>
-          </li>
-        <% } else if (collaborators){ %>
-          <li class="list-group-item">
-            <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
-          </li>
-       <% } %>
-        <% } else { %>
-          <li class="list-group-item">
-            <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
-          </li>
-           <% } %>
-          <% }) %>
-      </ul>
-
+      <% if(!currentUser) { %>
+        <!-- //Guest Public wikis View Only -->
+        <ul class='list-group'>
+           <% const newWikis = wikis.filter( wiki => wiki.private == false) %>
+           <% newWikis.forEach((wiki) => { %>
+             <li class="list-group-item">
+               <a href="/wikis/<%= wiki.id %>">
+                 <%= wiki.title %></a>
+             </li>
+           <% }) %>
+        </ul>
+      <% } else if (currentUser) { %>
+        <ul class="list-group">
+            <!-- //shows all wikis for admin -->
+          <%  if (currentUser.role == 'admin') { %>
+            <% wikis.forEach((wiki)=> { %>
+              <li class="list-group-item">
+                <a href="/wikis/<%= wiki.id %>">
+                  <%= wiki.title %></a>
+              </li>
+              <% }) %>
+          <% } else if { %>
+            <!-- //shows wikis only if authored by user or public wikis -->
+            <% const newWikis = wikis.filter( wiki => wiki.userId === currentUser.id || wiki.private == false) %>
+            <% newWikis.forEach((wiki) => { %>
+              <li class="list-group-item">
+                <a href="/wikis/<%= wiki.id %>">
+                  <%= wiki.title %></a>
+              </li>
+            <% }) %>
+          <% } else { %>
+            <ul class="list-group">
+                <% wikis.forEach(function(wiki) { %>
+                <% if(wiki.private === true && wiki.userId === currentUser.id) { %>
+                <li class="list-group-item">
+                    <a href="/wikis/<%= wiki.id %>">
+                        <%= wiki.title %> </a>
+                </li>
+                <% } %>
+                <% }) %>
+            </ul>
+            <% } %>
+          <% } %>
+        </ul>
 
     </main>
     <% include ../static/partials/baseScripts.ejs %>
