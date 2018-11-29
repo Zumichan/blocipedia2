@@ -6,13 +6,13 @@ module.exports = {
   show(req, res, next) {
     wikiQueries.getWiki(req.params.wikiId, (err, result) => {
       wiki = result["wiki"];
-      collaborators = result["collaborators"];
+      collaborations = result["collaborations"];
         if (err || wiki == null) {
           res.redirect(404, "/");
         } else {
-          const authorized = new Authorizer(req.user, wiki, collaborators).edit();
+          const authorized = new Authorizer(req.user, wiki, collaborations).edit();
             if (authorized) {
-              res.render("collaborators/edit", { wiki, collaborators });
+              res.render("collaborators/show", { wiki, collaborations });
             } else {
               req.flash("notice", "You are not authorized to do that.");
               res.redirect(`/wikis/${req.params.wikiId}`)
@@ -41,5 +41,5 @@ module.exports = {
       res.redirect(req.headers.referer);
     }
   }
-  
+
 }

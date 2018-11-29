@@ -58,7 +58,7 @@ module.exports = {
   show(req, res, next){
     wikiQueries.getWiki(req.params.id, (err, result) => {
       wiki = result["wiki"];
-      collaborators = result["collaborators"];
+      collaborations = result["collaborations"];
       if(err || wiki == null){
         res.redirect(404, "/");
       } else {
@@ -77,15 +77,15 @@ module.exports = {
      });
    },
    edit(req, res, next){
-    wikiQueries.getWiki(req.params.id, (err, wiki) => {
-      wiki = result["wiki"];
-      collaborators = result["collaborators"];
+    wikiQueries.getWiki(req.params.id, (err, result) => {
       if(err || wiki == null){
         res.redirect(404, "/");
       } else {
-        const authorized = new Authorizer(req.user, wiki, collaborators).edit();
+        wiki = result["wiki"];
+        collaborations = result["collaborations"];
+        const authorized = new Authorizer(req.user, wiki, collaborations).edit();
         if(authorized){
-          res.render("wikis/edit", {wiki, collaborators});
+          res.render("wikis/edit", {wiki, collaborations});
         } else {
           req.flash("Error: You are not authorized to do that.")
           res.redirect(`/wikis/${req.params.id}`)
