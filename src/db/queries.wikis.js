@@ -6,9 +6,11 @@ const Authorizer = require("../policies/wiki");
 module.exports = {
 
   getAllWikis(callback){
+    let result = {};
     return Wiki.all()
     .then((wikis) => {
-      callback(null, wikis);
+      result['wikis'] = wikis;
+      callback(null, result);
     })
     .catch((err) => {
       callback(err);
@@ -77,16 +79,19 @@ module.exports = {
          });
      });
    },
-   makePrivate(user){
-     return Wiki.findAll({
-       where: {userId: user.id}
-     })
+   makePrivate(id){
+     return Wiki.all()
      .then((wikis) => {
        wikis.forEach((wiki) => {
+         if (wiki.userId == id && wiki.private == true){
          wiki.update({
            private: false
          })
+        }
        })
+     })
+     .catch(err => {
+       console.log(err);
      })
    }
 

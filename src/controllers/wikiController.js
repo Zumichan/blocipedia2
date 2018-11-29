@@ -1,6 +1,7 @@
 const wikiQueries = require("../db/queries.wikis.js");
 const Authorizer = require("../policies/wiki");
 const markdown = require("markdown").markdown;
+const userQueries = require("../db/queries.users.js");
 
 module.exports = {
   index(req, res, next){
@@ -8,7 +9,10 @@ module.exports = {
       if(err){
         res.redirect(500, "static/index");
       } else {
-        res.render("wikis/index", {wikis});
+        userQueries.getAllUsers((err, result) => {
+          let users = result['users'];
+          res.render("wikis/index", {wikis, users});
+        });
       }
     })
   },
@@ -22,7 +26,8 @@ module.exports = {
     }
   },
   private(req,res,next){
-    wikiQueries.getAllWikis((err,wikis) => {
+    wikiQueries.getAllWikis((err,result) => {
+      let wikis = result['wikis']
       if(err){
         res.redirect(500, 'static/index');
       } else {
@@ -75,11 +80,11 @@ module.exports = {
    },
    edit(req, res, next){
     wikiQueries.getWiki(req.params.id, (err, result) => {
-      wiki = result["wiki"];
-      collaborators = result["collaborators"];
       if(err || wiki == null){
         res.redirect(404, "/");
       } else {
+        wiki = result["wiki"];
+        collaborators = result["collaborators"];
         const authorized = new Authorizer(req.user, wiki, collaborators).edit();
         if(authorized){
           res.render("wikis/edit", {wiki, collaborators});
