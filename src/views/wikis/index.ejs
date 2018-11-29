@@ -9,9 +9,8 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
-        <a href='/' class="btn btn-outline-info" style='margin-bottom: 19px; margin-left: 5px'>
-            <i class='fas fa-arrow-left'></i></a>
-        <h1 style='display:inline-block'>Wikis</h1>
+
+        <h1 >Wikis</h1>
 
         <br>
 
@@ -27,29 +26,16 @@
             <li class="list-group-item">
                 <a href="/wikis/<%= wiki.id %>">
                     <%= wiki.title %></a>
-                <small>
-                    creator:
-                    <%= name(users, wiki) %>
-                    @
-                    <%= wiki.createdAt %>
-                </small>
             </li>
             <% }) %>
         </ul>
         <% } else if(currentUser)  { %>
-        <p>Want to contribute something new? <a href="/wikis/new"><i class="fas fa-lg fa-plus-square" id='plus-icon'></i></a></p>
         <ul class="list-group">
             <!-- //shows all wikis for admin -->
             <%  if (currentUser.role == 'admin') { wikis.forEach((wiki)=> { %>
             <li class="list-group-item">
                 <a href="/wikis/<%= wiki.id %>">
                     <%= wiki.title %></a>
-                <small> creator:
-                    <%= name(users, wiki) %>
-                    @
-                    <%= wiki.createdAt %>
-                    (PRIVATE:
-                    <%= (wiki.private).toString().toUpperCase(); %>) </small>
             </li>
             <% })} else { %>
             <!-- //shows wikis only if authored by user or they are public
@@ -59,12 +45,11 @@
             <li class="list-group-item">
                 <a href="/wikis/<%= wiki.id %>">
                     <%= wiki.title %></a>
-                <small>
-                    creator:
-                    <%= name(users, wiki) %>
-                    @
-                    <%= wiki.createdAt %>
-                </small>
             </li>
             <% }) }%>
             <% } %>
+        </ul>
+    </main>
+    <% include ../static/partials/baseScripts.ejs %>
+</body>
+</html>

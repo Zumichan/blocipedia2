@@ -23,7 +23,7 @@
           <textarea rows="4" class="form-control" name="body" placeholder="Enter Body"><%= wiki.body %></textarea>
           <small class="text-muted" id="bodyHelp">Body must be 10 or more characters in length.</small>
         </div>
-        <% if(currentUser.isPremium() || currentUser.isAdmin()) { %>
+        <% if(currentUser && ( currentUser.isPremium() || currentUser.isAdmin() ) && wiki.userId === currentUser.id) { %>
         <div class="form-group">
           <p>Select Private if you want to make your wiki private:</p>
           <label for="private">Private</label>
@@ -33,7 +33,7 @@
           </select>
         </div>
         <% } %>
-        <button type="submit" class="btn btn-primary">Update</button> 
+        <button type="submit" class="btn btn-primary">Update</button>
       </form>
     </main>
 
