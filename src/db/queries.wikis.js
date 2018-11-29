@@ -4,10 +4,22 @@ const Authorizer = require("../policies/wiki");
 
 module.exports = {
 
-  getAllWikis(callback){
+  getAllWikis(userId, callback){
+    let result = {};
     return Wiki.all()
     .then((wikis) => {
-      callback(null, wikis);
+      result["wikis"] = wikis;
+      if (userId == null) {
+        result["collaborations"] = [];
+        callback(null, result);
+      }
+      else {
+        Collaborator.scope({ method: ["userCollaborationsFor", userId] }).all()
+          .then((collaborations) => {
+            result["collaborations"] = collaborations;
+            callback(null, result);
+          })
+      }
     })
     .catch((err) => {
       callback(err);

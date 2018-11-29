@@ -4,11 +4,13 @@ const markdown = require("markdown").markdown;
 
 module.exports = {
   index(req, res, next){
-    wikiQueries.getAllWikis((err, wikis) => {
+    wikiQueries.getAllWikis((req.user ? req.user.id : null), (err, result) => {
       if(err){
         res.redirect(500, "static/index");
       } else {
-        res.render("wikis/index", {wikis});
+        wikis = result["wikis"];
+        collaborations = result["collaborations"];
+        res.render("wikis/index", {wikis, collaborations});
       }
     })
   },
@@ -22,11 +24,13 @@ module.exports = {
     }
   },
   private(req,res,next){
-    wikiQueries.getAllWikis((err,wikis) => {
+    wikiQueries.getAllWikis((req.user ? req.user.id : null), (err,wikis) => {
       if(err){
         res.redirect(500, 'static/index');
       } else {
-        res.render('wikis/private', {wikis})
+        wikis = result["wikis"];
+        collaborations = result["collaborations"];
+        res.render('wikis/private', {wikis, collaborations});
       }
     })
   },

@@ -14,11 +14,21 @@
         <a href="/wikis/new" class="btn btn-success">New Wiki</a>
       <% } %>
 
+      <br>
+      <br>
+
       <ul class="list-group">
+        <% var collaborationIds = [] %>
+        <% if (collaborations) { %>
+          <% collaborations.forEach((collaboration) => { %>
+            <% collaborationIds.push(collaboration.wikiId) %>
+          <% }) %>
+        <% } %>
+        <!-- //<li><%= String(collaborations) %> </li> for debugging-->
         <% wikis.forEach((wiki) => { %>
           <% if(wiki.private) { %>
             <% if(currentUser) { %>
-              <% if(currentUser.isPremium() || currentUser.isAdmin() || wiki.userId === currentUser.id){ %>
+              <% if(currentUser.isAdmin() || collaborationIds.includes(wiki.id) || wiki.userId === currentUser.id){ %>
           <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
           </li>

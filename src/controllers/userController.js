@@ -33,8 +33,8 @@ module.exports = {
      res.render("users/sign_in");
    },
    signIn(req, res, next){
-     console.log(req);
-     console.log(req.params, "this is req.params");
+     //console.log(req);
+     //console.log(req.params, "this is req.params");
      passport.authenticate("local", function(err, user, info){
        if(err){
          next(err);
