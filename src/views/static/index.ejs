@@ -3,38 +3,67 @@
   <head>
     <% include ./partials/head.ejs %>
   </head>
-  <body>
+
+  <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+  	<!--banner-->
+	<section id="banner" class="banner">
+     <% include ./partials/messages.ejs %>
+		<div class="bg-color">
       <!-- Navigation -->
-      <% include ./partials/navbar.ejs %>
+        <% include ./partials/navbar.ejs %>
+        <!--Main-->
+         <div class="container">
+   				<div class="row">
+   					<div class="banner-info">
+   						<div class="banner-text text-center">
+   							<h1 class="white">Let's share your knowledge with the world</h1>
+   							<p>Let people know what you find interesting in this world</p>
+   							<a href="/users/sign_up" class="btn btn-appoint">Get Started</a>
+   						</div>
+   						<div class="overlay-detail text-center">
+   			         <a href="#service"><i class="fa fa-angle-down"></i></a>
+   			      </div>
+   					</div>
+   				</div>
+   			</div>
+      </div>
+</section>
 
-      <!-- Page Content -->
-      <main class="container">
-         <% include ./partials/messages.ejs %>
-        <!-- Jumbotron Header -->
-        <header class="jumbotron my-4">
-          <h1 class="display-3">Blocipedia: Social, Markdown Wikis</h1>
-          <p class="lead">Create and share Markdown Wikis</p>
-          <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
-        </header>
+<section id="service" class="section-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-sm-4">
+					<h2 class="ser-title">Our Plan</h2>
+					<hr class="botm-line">
+					<p>Select from 2 plans which fits to your need</p>
+				</div>
+				<div class="col-md-4 col-sm-4">
+					<div class="service-info">
+						<div class="icon">
+							<i class="fa fa-user"></i>
+						</div>
+						<div class="icon-info">
+							<h4>Free Plan</h4>
+							<p>Create as many public wikis as you want</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-4">
+					<div class="service-info">
+						<div class="icon">
+							<i class="fa fa-users"></i>
+						</div>
+						<div class="icon-info">
+							<h4>Premium Plan</h4>
+							<p>Create private wikis and collaborate with other users</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-        <!-- Page Features -->
-        <section class="row text-center">
-
-          <section class="col-lg-6">
-            <h4 class="card-title">Free Plan</h4>
-            <p class="card-text">Create as many public wikis as you want!</p>
-          </section>
-
-          <section class="col-lg-6">
-            <h4 class="card-title">Premium Plan</h4>
-            <p class="card-text">Create private wikis!</p>
-
-          </section>
-
-        </section>
-        <!-- /.row -->
-
-      </main>
       <!-- /.container -->
 
       <% include ./partials/baseScripts.ejs %>
