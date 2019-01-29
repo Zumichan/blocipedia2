@@ -10,22 +10,22 @@
 
         <% include ../static/partials/messages.ejs %>
 
-      <h1>Edit Wiki</h1>
+      <h1>Edit Article</h1>
 
       <form action="/wikis/<%= wiki.id %>/update" method="post">
         <div class="form-group">
-          <label for="title">Wiki title</label>
+          <label for="title">Title</label>
           <input value="<%= wiki.title %>" type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
           <small class="text-muted" id="titleHelp">Title must be 2 or more characters in length.</small>
         </div>
         <div class="form-group">
-          <label for="body">body</label>
+          <label for="body">Body</label>
           <textarea rows="4" class="form-control" name="body" placeholder="Enter Body"><%= wiki.body %></textarea>
           <small class="text-muted" id="bodyHelp">Body must be 10 or more characters in length.</small>
         </div>
         <% if(currentUser.isPremium() || currentUser.isAdmin()) { %>
         <div class="form-group">
-          <p>Select Private if you want to make your wiki private:</p>
+          <p>Select Private if you want to make your article private:</p>
           <label for="private">Private</label>
           <select class="form-control" name="private">
             <option value="false">Public</option>
@@ -33,7 +33,7 @@
           </select>
         </div>
         <% } %>
-        <button type="submit" class="btn btn-primary">Update</button> 
+        <button type="submit" class="btn btn-primary">Update</button>
       </form>
     </main>
 

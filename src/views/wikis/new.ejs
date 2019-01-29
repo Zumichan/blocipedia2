@@ -10,16 +10,16 @@
 
       <% include ../static/partials/messages.ejs %>
 
-      <h1>New Wiki</h1>
+      <h1>New Article</h1>
 
       <form action="/wikis/create" method="post">
         <div class="form-group">
-          <label for="title">Wiki title</label>
+          <label for="title">Title</label>
           <input type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
           <small class="text-muted" id="titleHelp">Title must be 2 or more characters in length.</small>
         </div>
         <div class="form-group">
-          <label for="body">Wiki body</label>
+          <label for="body">Body</label>
           <textarea rows="4" class="form-control" name="body" placeholder="Enter body"></textarea>
           <small class="text-muted" id="bodyHelp">Body must be 10 or more characters in length. </small>
           <br>
@@ -27,7 +27,7 @@
         </div>
         <% if(currentUser.isPremium() || currentUser.isAdmin()) { %>
         <div class="form-group">
-          <label for="private">Wiki Status</label>
+          <label for="private">Status</label>
           <select class="form-control" name="private">
             <option value="false">Public</option>
             <option value="true">Private</option>
